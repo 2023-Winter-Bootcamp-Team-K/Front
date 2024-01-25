@@ -62,30 +62,41 @@ export default function ChatPage() {
       if (messageEvent === 'conversation') {
         chatArray.push(messageReceived.data.message);
         const chat = chatArray.join('');
-        if (checkFinish === 'stop') {
-          chatArray = [];
 
-          //쿼카 메세지
-          if (messageReceived.data.character === 'quokka') {
-            const data = {
-              character: 'quokka',
-              message: chat,
-            };
-            chatArrayFinal.push(data);
-            setSendChatArray(chatArrayFinal);
-            console.log('쿼카 메세지 setSendChatArray');
-          }
-          //아이 메세지
-          if (messageReceived.data.character === 'child') {
-            const data = {
-              character: 'child',
-              message: chat,
-            };
-            chatArrayFinal.push(data);
-            setSendChatArray(chatArrayFinal);
-            console.log('아이 메세지 setSendChatArray');
-          }
+        if (messageReceived.data.character === 'quokka') {
+          const data = {
+            character: 'quokka',
+            message: chat,
+          };
+          console.log(data);
+
+          setSendChatArray(data);
         }
+
+        // if (checkFinish === 'stop') {
+        //   chatArray = [];
+
+        //   //쿼카 메세지
+        //   if (messageReceived.data.character === 'quokka') {
+        //     const data = {
+        //       character: 'quokka',
+        //       message: chat,
+        //     };
+        //     chatArrayFinal.push(data);
+        //     setSendChatArray(chatArrayFinal);
+        //     console.log('쿼카 메세지 setSendChatArray');
+        //   }
+        //   //아이 메세지
+        //   if (messageReceived.data.character === 'child') {
+        //     const data = {
+        //       character: 'child',
+        //       message: chat,
+        //     };
+        //     chatArrayFinal.push(data);
+        //     setSendChatArray(chatArrayFinal);
+        //     console.log('아이 메세지 setSendChatArray');
+        //   }
+        // }
       } else if (messageEvent === 'question_tts') {
         setPlzWait(false);
         console.log('tts 시작');
