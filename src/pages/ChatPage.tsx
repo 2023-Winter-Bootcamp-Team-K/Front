@@ -25,7 +25,7 @@ export default function ChatPage() {
     message: string;
   }
 
-  const chatArrayFinal: Array<chatArrayState> = [];
+  let chatArrayFinal: Array<chatArrayState> = [];
   const [sendChatArray, setSendChatArray] = useState<chatArrayState[]>([]);
 
   const [close, setclose] = useState(false);
@@ -68,9 +68,11 @@ export default function ChatPage() {
             character: 'quokka',
             message: chat,
           };
-          console.log(data);
 
-          setSendChatArray(data);
+          console.log(data);
+          chatArrayFinal.push(data);
+          setSendChatArray(chatArrayFinal);
+          chatArrayFinal = [];
         }
 
         // if (checkFinish === 'stop') {
