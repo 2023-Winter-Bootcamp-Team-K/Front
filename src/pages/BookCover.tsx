@@ -7,16 +7,47 @@ import { useQuery } from 'react-query';
 export default function BookCover() {
   const [isOpen, setIsOpen] = useState(false);
   const [showRight, setShowRight] = useState(false);
+  const [captureImage, setCaptureImage] = useState('');
   const navigate = useNavigate();
   const selectedDiaryId = window.localStorage.getItem('selectedDiaryId');
+  const selectedChatRoomId = window.localStorage.getItem('selectedChatRoomId');
+
   const { data: diaryData } = useQuery(
     ['selectedDiaryId', selectedDiaryId],
     () => getDiary(selectedDiaryId || '')
   );
   const diaryContent = diaryData;
 
+  const fetchCaptureImage = async () => {
+    if (selectedChatRoomId) {
+      try {
+        const response = await fetch(`/apps/chat_list/${selectedChatRoomId}/`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+  
+        // 응답 내용을 텍스트로 출력
+        const responseText = await response.text();
+        console.log("Response text:", responseText);
+  
+        // JSON으로 파싱을 시도합니다.
+        try {
+          const data = JSON.parse(responseText);
+          setCaptureImage(data.captureURL);
+        } catch (jsonError) {
+          console.error("JSON 파싱 오류", jsonError);
+          // 응답이 JSON 형식이 아닐 경우 처리
+        }
+      } catch (error) {
+        console.error('캡처 이미지 가져오기 오류', error);
+      }
+    }
+  };
+  
+  
   useEffect(() => {
     openBook();
+    fetchCaptureImage();
   }, []);
 
   const openBook = () => {
@@ -28,6 +59,7 @@ export default function BookCover() {
       navigate('/diary');
     }, 1400);
   };
+
   return (
     <>
       <BackGround>
@@ -36,7 +68,7 @@ export default function BookCover() {
             <Front>
               <Year>{2024}</Year>
               <Title>{diaryContent?.username} 다이어리</Title>
-              <img src={diaryContent?.captureURL} alt="" />
+              <img src={captureImage} alt="Capture" />
               <button onClick={openBook}>함께 보러가기 </button>
             </Front>
             {showRight && <Back></Back>}
@@ -51,6 +83,7 @@ export default function BookCover() {
     </>
   );
 }
+
 
 const openAnimation = keyframes`
   0%, 10% {

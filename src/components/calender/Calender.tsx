@@ -27,6 +27,7 @@ type calenderType = {
   diaryId: number;
   imageURL?: string;
   mood: MoodType;
+  chat_room_id:number;
 };
 type CalenderProps = {
   data: calenderType[];
@@ -44,20 +45,24 @@ const Calender = ({ data }: CalenderProps) => {
     mood: string;
     imageUrl?: string;
     created_at?: string | undefined;
+    roomId?: number;
   };
 
   const handleDayClick = (dateKey: string) => {
     const feelings = sampleFeelings[dateKey];
-
+    console.log(feelings)
+  
     if (feelings && feelings.length > 0) {
       const diaryId = feelings[0].diaryId.toString();
+      const chatRoomId = feelings[0].roomId.toString();
       localStorage.setItem('selectedDiaryId', diaryId);
+      localStorage.setItem('selectedChatRoomId', chatRoomId); 
       navigate('/bookcover');
     } else {
       alert('해당 날짜에는 다이어리가 존재하지 않습니다.');
     }
   };
-
+  console.log(data)
   useEffect(() => {
     if (data) {
       const feelingsData = data.reduce<{ [key: string]: FeelingType[] }>(
@@ -71,6 +76,7 @@ const Calender = ({ data }: CalenderProps) => {
               mood: moodToImageUrl[item.mood],
               imageUrl: item.imageURL,
               created_at: item.created_at,
+              roomId: item.chat_room_id,  
             });
           }
           return acc;
