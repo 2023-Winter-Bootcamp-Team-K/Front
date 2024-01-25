@@ -75,6 +75,17 @@ export default function ChatPage() {
           chatArrayFinal = [];
         }
 
+        if (messageReceived.data.character === 'child') {
+          const data = {
+            character: 'child',
+            message: chat,
+          };
+
+          console.log(data);
+          chatArrayFinal.push(data);
+          setSendChatArray(chatArrayFinal);
+          chatArrayFinal = [];
+        }
         // if (checkFinish === 'stop') {
         //   chatArray = [];
 
