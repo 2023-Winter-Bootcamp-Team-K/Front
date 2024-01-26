@@ -5,7 +5,7 @@ import { useChatStore } from '../../stores/chat';
 
 export default function CharComponent() {
   const { RecordToggle, plzWait } = useChatStore();
-  console.log(RecordToggle, 'RecordToggle');
+  // console.log(RecordToggle, 'RecordToggle');
 
   return (
     <Layout>

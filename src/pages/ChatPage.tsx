@@ -35,6 +35,7 @@ export default function ChatPage() {
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/`);
 
     let chatArray = new Array();
+    let storeArray = new Array();
 
     ws.onopen = () => {
       // 웹소켓 시작 설정
@@ -57,33 +58,56 @@ export default function ChatPage() {
       const messageEvent = messageReceived.event;
       const checkFinish = messageReceived.data.finish_reason;
 
-      console.log(messageReceived);
+      // console.log(messageReceived);
 
       if (messageEvent === 'conversation') {
         chatArray.push(messageReceived.data.message);
         const chat = chatArray.join('');
 
+        //쿼카
         if (messageReceived.data.character === 'quokka') {
           const data = {
             character: 'quokka',
             message: chat,
           };
 
-          console.log(data);
+          // console.log(data);
+
+          chatArrayFinal.concat(...storeArray, ...chatArrayFinal);
+
           chatArrayFinal.push(data);
           setSendChatArray(chatArrayFinal);
+
+          if (checkFinish === 'stop') {
+            chatArray = [];
+            storeArray.push(chatArrayFinal);
+          }
+          console.log(storeArray);
+
           chatArrayFinal = [];
         }
 
-        if (messageReceived.data.character === 'child') {
+        //아이
+        else if (messageReceived.data.character === 'child') {
           const data = {
             character: 'child',
             message: chat,
           };
 
-          console.log(data);
-          chatArrayFinal.push(data);
+          console.log('child', data);
+
+          chatArrayFinal.concat(storeArray, data);
+
+          // chatArrayFinal.push(data);
           setSendChatArray(chatArrayFinal);
+          chatArrayFinal = [];
+
+          if (checkFinish === 'stop') {
+            chatArray = [];
+            storeArray.push(chatArrayFinal);
+          }
+          console.log(chatArrayFinal);
+
           chatArrayFinal = [];
         }
         // if (checkFinish === 'stop') {

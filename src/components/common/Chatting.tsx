@@ -15,7 +15,7 @@ export default function ChatBox({ sendChatArray }: ChatBoxProps) {
   >([]);
   const messageLayOutRef = useRef<HTMLDivElement | null>(null);
 
-  console.log('왜 목소리 나오고 나옴? 왜 시작할 때는 잘 나왔잖아', messages);
+  // console.log('왜 목소리 나오고 나옴? 왜 시작할 때는 잘 나왔잖아', messages);
 
   //스크롤부분
   useEffect(() => {
