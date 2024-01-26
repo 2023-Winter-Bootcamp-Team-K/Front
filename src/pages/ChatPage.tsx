@@ -73,10 +73,10 @@ export default function ChatPage() {
 
           // console.log(data);
 
-          chatArrayFinal.concat(...storeArray, ...chatArrayFinal);
+          storeArray.push(...chatArrayFinal);
 
-          chatArrayFinal.push(data);
-          setSendChatArray(chatArrayFinal);
+          storeArray.push(data);
+          setSendChatArray(storeArray);
 
           if (checkFinish === 'stop') {
             chatArray = [];
@@ -94,19 +94,18 @@ export default function ChatPage() {
             message: chat,
           };
 
-          console.log('child', data);
+          // console.log(data);
 
-          chatArrayFinal.concat(storeArray, data);
+          storeArray.push(...chatArrayFinal);
 
-          // chatArrayFinal.push(data);
-          setSendChatArray(chatArrayFinal);
-          chatArrayFinal = [];
+          storeArray.push(data);
+          setSendChatArray(storeArray);
 
           if (checkFinish === 'stop') {
             chatArray = [];
             storeArray.push(chatArrayFinal);
           }
-          console.log(chatArrayFinal);
+          console.log(storeArray);
 
           chatArrayFinal = [];
         }
